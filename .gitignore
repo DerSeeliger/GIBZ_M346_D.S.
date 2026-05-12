@@ -1,5 +1,19 @@
+# Terraform internals
 .terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfstate.d/
+*.tfplan
+
+# Secrets and keys
 *.pem
-*.tfstate
-*.tfstate.backup
+*.key
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Generated build artifacts
 *.zip
+E/lambda_function.zip
