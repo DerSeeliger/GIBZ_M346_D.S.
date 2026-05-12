@@ -1,4 +1,4 @@
-# E-1-I: Container compute — ECS Fargate (serverless containers, no EC2 management)
+# E-1-I: Container compute — ECS Fargate (serverless containers, no EC2 to manage)
 
 resource "aws_cloudwatch_log_group" "ecs" {
   name              = "/ecs/${var.project_name}-${var.student_name}"
@@ -23,15 +23,11 @@ resource "aws_ecs_task_definition" "web" {
     name  = "nginx"
     image = "nginx:alpine"
 
-    portMappings = [{
-      containerPort = 80
-      protocol      = "tcp"
-    }]
+    portMappings = [{ containerPort = 80, protocol = "tcp" }]
 
-    # Custom index.html injected at startup to show student name
     command = [
       "/bin/sh", "-c",
-      "printf '<!DOCTYPE html><html><head><title>M346 Container</title><style>body{font-family:sans-serif;max-width:600px;margin:50px auto;padding:20px;background:#f5f5f5}h1{color:#232f3e}.info{background:white;padding:20px;border-radius:8px;border-left:4px solid #0073bb}.tag{display:inline-block;background:#0073bb;color:white;padding:2px 8px;border-radius:4px;font-size:.8em}</style></head><body><h1>M346 Cloud Project <span class=\"tag\">Container</span></h1><div class=\"info\"><p><strong>Student:</strong> david-seeliger</p><p><strong>Service:</strong> Amazon ECS Fargate</p><p><strong>Compute type:</strong> Serverless Container - managed container platform, no EC2 to manage</p><p><strong>Container image:</strong> nginx:alpine</p><p><strong>CPU:</strong> 0.25 vCPU | <strong>Memory:</strong> 512 MB</p></div></body></html>' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
+      "printf '<!DOCTYPE html><html><head><title>M346 Container</title><style>body{font-family:sans-serif;max-width:600px;margin:50px auto;padding:20px;background:#f5f5f5}h1{color:#232f3e}.info{background:white;padding:20px;border-radius:8px;border-left:4px solid #0073bb}.tag{display:inline-block;background:#0073bb;color:white;padding:2px 8px;border-radius:4px;font-size:.8em}</style></head><body><h1>M346 Cloud Project <span class=\"tag\">Container</span></h1><div class=\"info\"><p><strong>Student:</strong> david-seeliger</p><p><strong>Service:</strong> Amazon ECS Fargate</p><p><strong>Compute type:</strong> Serverless Container</p><p><strong>Container image:</strong> nginx:alpine</p><p><strong>CPU:</strong> 0.25 vCPU | <strong>Memory:</strong> 512 MB</p></div></body></html>' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
     ]
 
     logConfiguration = {
@@ -55,7 +51,7 @@ resource "aws_ecs_service" "web" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = data.aws_subnets.default.ids
+    subnets          = var.subnet_ids
     security_groups  = [aws_security_group.ecs.id]
     assign_public_ip = true
   }

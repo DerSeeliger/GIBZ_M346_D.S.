@@ -1,4 +1,4 @@
-# AWS Backup plan — uses Academy's pre-existing LabRole
+# H-1: AWS Backup plan — daily EBS snapshots, 7-day retention, tag-based scope
 data "aws_iam_role" "lab_role" {
   count = var.create_backup ? 1 : 0
   name  = "LabRole"
@@ -17,7 +17,7 @@ resource "aws_backup_plan" "main" {
   rule {
     rule_name         = "daily-backup-7day-retention"
     target_vault_name = aws_backup_vault.main[0].name
-    schedule          = "cron(0 2 * * ? *)"  # daily at 02:00 UTC
+    schedule          = "cron(0 2 * * ? *)"
 
     lifecycle {
       delete_after = 7
@@ -27,7 +27,7 @@ resource "aws_backup_plan" "main" {
   tags = { Owner = var.student_name }
 }
 
-# Tag-based assignment: backs up anything tagged Backup=true
+# Backs up all resources tagged Backup=true (both EC2 web servers)
 resource "aws_backup_selection" "main" {
   count        = var.create_backup ? 1 : 0
   name         = "${var.project_name}-backup-selection"
