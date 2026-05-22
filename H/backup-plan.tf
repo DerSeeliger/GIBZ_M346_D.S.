@@ -5,9 +5,10 @@ data "aws_iam_role" "lab_role" {
 }
 
 resource "aws_backup_vault" "main" {
-  count = var.create_backup ? 1 : 0
-  name  = "${var.project_name}-backup-vault"
-  tags  = { Owner = var.student_name }
+  count         = var.create_backup ? 1 : 0
+  name          = "${var.project_name}-backup-vault"
+  force_destroy = true
+  tags          = { Owner = var.student_name }
 }
 
 resource "aws_backup_plan" "main" {

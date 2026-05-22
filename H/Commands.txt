@@ -1,0 +1,18 @@
+  CHANGE IP ADRESSES FOR YOUR PROJECT
+  
+  Tab 1 — corrupt both servers:
+  ssh -i m346-key.pem ec2-user@13.218.156.132 \
+    "echo '<h1 style=\"color:red\">CRITICAL ERROR — Data corrupted</h1>' | sudo tee /usr/share/nginx/html/index.html"
+    
+  ssh -i m346-key.pem ec2-user@3.236.243.95 \
+    "echo '<h1 style=\"color:red\">CRITICAL ERROR — Data corrupted</h1>' | sudo tee /usr/share/nginx/html/index.html"
+
+  Restore from S3:
+  aws s3 cp s3://m346-backup-david-seeliger/restore-demo/index.html ./restored-index.html
+
+  scp -i m346-key.pem restored-index.html ec2-user@13.218.156.132:/tmp/index.html
+  ssh -i m346-key.pem ec2-user@13.218.156.132 "sudo cp /tmp/index.html /usr/share/nginx/html/index.html"
+
+  scp -i m346-key.pem restored-index.html ec2-user@3.236.243.95:/tmp/index.html
+  ssh -i m346-key.pem ec2-user@3.236.243.95 "sudo cp /tmp/index.html /usr/share/nginx/html/index.html"
+
