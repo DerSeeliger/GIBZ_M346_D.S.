@@ -1,7 +1,7 @@
 # E-1-B: Web server security group — HTTP + SSH from internet
 resource "aws_security_group" "web" {
   name        = "${var.project_name}-sg-web-${var.student_name}"
-  description = "Web server — HTTP and SSH access"
+  description = "Web server - HTTP and SSH access"
   vpc_id      = var.vpc_id
 
   ingress {

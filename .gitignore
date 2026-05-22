@@ -1,9 +1,7 @@
 # Terraform internals
 .terraform/
 .terraform.lock.hcl
-terraform.tfstate
-terraform.tfstate.backup
-terraform.tfstate.d/
+tfstate/
 *.tfplan
 
 # Secrets and keys

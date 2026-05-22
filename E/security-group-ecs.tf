@@ -1,7 +1,7 @@
 # E-1-I: ECS Fargate security group — HTTP in, all out
 resource "aws_security_group" "ecs" {
   name        = "${var.project_name}-sg-ecs-${var.student_name}"
-  description = "ECS Fargate tasks — HTTP access"
+  description = "ECS Fargate tasks - HTTP access"
   vpc_id      = var.vpc_id
 
   ingress {

@@ -1,7 +1,7 @@
 # H-1: Load balancer security group — HTTP in from internet, all out
 resource "aws_security_group" "load_balancer" {
   name        = "${var.project_name}-sg-alb-${var.student_name}"
-  description = "Application Load Balancer — HTTP from internet"
+  description = "Application Load Balancer - HTTP from internet"
   vpc_id      = var.vpc_id
 
   ingress {
