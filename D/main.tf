@@ -1,0 +1,65 @@
+# K04 D-1-B — Storage Services: S3 (Object) + EBS (Block)
+
+# Look up the EC2 instance to place EBS in the same AZ
+data "aws_instance" "web_a" {
+  instance_id = var.web_a_instance_id
+}
+
+# ── Object Storage: S3 ──────────────────────────────────────────────────────
+
+resource "aws_s3_bucket" "storage" {
+  bucket        = "${var.project_name}-storage-${var.student_name}"
+  force_destroy = true
+
+  tags = {
+    Name   = "${var.project_name}-storage"
+    Owner  = var.student_name
+    Backup = "true"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "storage" {
+  bucket = aws_s3_bucket.storage.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "storage" {
+  bucket                  = aws_s3_bucket.storage.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "storage" {
+  bucket = aws_s3_bucket.storage.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+# ── Block Storage: EBS ──────────────────────────────────────────────────────
+
+resource "aws_ebs_volume" "data" {
+  availability_zone = data.aws_instance.web_a.availability_zone
+  size              = 10
+  type              = "gp3"
+
+  tags = {
+    Name  = "${var.project_name}-ebs-data-${var.student_name}"
+    Owner = var.student_name
+  }
+}
+
+resource "aws_volume_attachment" "data" {
+  device_name  = "/dev/xvdf"
+  volume_id    = aws_ebs_volume.data.id
+  instance_id  = var.web_a_instance_id
+  force_detach = true
+}

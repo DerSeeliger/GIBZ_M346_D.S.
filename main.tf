@@ -46,6 +46,14 @@ data "aws_ami" "amazon_linux_2023" {
   }
 }
 
+# K04 — Storage Services (D-1-B: S3 + EBS)
+module "D" {
+  source            = "./D"
+  project_name      = var.project_name
+  student_name      = var.student_name
+  web_a_instance_id = module.E.web_a_instance_id
+}
+
 # K05 — Compute Services (E-1-B: EC2  |  E-1-I: Lambda, ECS)
 module "E" {
   source       = "./E"
