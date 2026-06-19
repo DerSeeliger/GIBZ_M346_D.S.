@@ -1,0 +1,18 @@
+Restore demo — run after `terraform apply`, using the outputs from this folder
+(`terraform output web_a_public_ip`, `web_b_public_ip`, `s3_bucket_name`).
+
+1. Corrupt both servers:
+   ssh -i m346-key.pem ec2-user@<web_a_public_ip> \
+     "echo '<h1 style=\"color:red\">CRITICAL ERROR — Data corrupted</h1>' | sudo tee /usr/share/nginx/html/index.html"
+
+   ssh -i m346-key.pem ec2-user@<web_b_public_ip> \
+     "echo '<h1 style=\"color:red\">CRITICAL ERROR — Data corrupted</h1>' | sudo tee /usr/share/nginx/html/index.html"
+
+2. Restore from the S3 backup:
+   aws s3 cp s3://<s3_bucket_name>/restore-demo/index.html ./restored-index.html
+
+   scp -i m346-key.pem restored-index.html ec2-user@<web_a_public_ip>:/tmp/index.html
+   ssh -i m346-key.pem ec2-user@<web_a_public_ip> "sudo cp /tmp/index.html /usr/share/nginx/html/index.html"
+
+   scp -i m346-key.pem restored-index.html ec2-user@<web_b_public_ip>:/tmp/index.html
+   ssh -i m346-key.pem ec2-user@<web_b_public_ip> "sudo cp /tmp/index.html /usr/share/nginx/html/index.html"

@@ -1,0 +1,10 @@
+Component,Baseline C-1-I (USD/mo),Optimized (USD/mo),Optimization Applied,Savings (USD/mo)
+EC2 compute (NAT+bastion+ASGx2),33.88,22.51,Graviton t4g.micro + scheduled scale-in,11.37
+EBS root volumes x4,9.60,2.56,Right-size 30GB to 8GB,7.04
+ALB,22.27,22.27,None,0.00
+RDS Multi-AZ (compute+storage),48.40,48.40,None - kept for HA per I-1-A,0.00
+Data transfer out,1.80,1.80,None,0.00
+Total,115.95,97.54,,18.41
+,,,,
+Rejected option,Baseline,Hypothetical,,
+RDS Single-AZ (not applied),48.40,24.20,Rejected - removes HA requirement from I-1-A,24.20

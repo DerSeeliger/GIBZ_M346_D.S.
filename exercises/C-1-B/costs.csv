@@ -1,0 +1,10 @@
+Service,Cost Driver,Quantity,Unit,Rate (USD),Cost (USD)
+EC2 t2.micro,Instance hours,730,hours,0.0116,8.47
+S3 Standard,Storage,50,GB-month,0.023,1.15
+S3 Standard,PUT/COPY/POST/LIST requests,20000,requests,0.005 per 1000,0.10
+S3 Standard,GET requests,200000,requests,0.0004 per 1000,0.08
+S3 Standard,Data transfer out,10,GB,0.09,0.90
+,,,,,
+,,,,Total EC2,8.47
+,,,,Total S3,2.23
+,,,,Grand Total,10.70

@@ -1,0 +1,15 @@
+Category,Item,Quantity,Unit,Rate (USD),Cost (USD)
+Compute,NAT instance (t2.micro),730,hours,0.0116,8.47
+Compute,Bastion (t2.micro),730,hours,0.0116,8.47
+Compute,ASG web x2 (t2.micro),1460,hours,0.0116,16.94
+Block storage,EBS root volumes x4 (gp3 30GB each),120,GB-month,0.08,9.60
+Load balancer,ALB base,730,hours,0.0225,16.43
+Load balancer,ALB LCU-hours,730,LCU-hours,0.008,5.84
+Database,RDS db.t3.micro Multi-AZ compute,730,hours,0.06,43.80
+Database,RDS storage Multi-AZ (20GB x2),40,GB-month,0.115,4.60
+Network,Data transfer out via ALB,20,GB,0.09,1.80
+,,,,,
+,,,,Total,115.95
+,,,,,
+Comparison,NAT instance (chosen),,,monthly,8.47
+Comparison,Managed NAT Gateway (alternative),,,monthly,33.75
