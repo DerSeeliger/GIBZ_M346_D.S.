@@ -1,3 +1,4 @@
+output "key_name"          { value = aws_key_pair.main.key_name }
 output "web_a_instance_id" { value = aws_instance.web_a.id }
 output "web_b_instance_id" { value = aws_instance.web_b.id }
 output "web_a_public_ip"   { value = aws_instance.web_a.public_ip }

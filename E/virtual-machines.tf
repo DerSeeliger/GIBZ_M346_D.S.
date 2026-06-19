@@ -13,6 +13,12 @@ resource "aws_instance" "web_a" {
     Owner  = var.student_name
     Backup = "true"
   }
+
+  # AMI data source re-resolves to the newest AL2023 image every session;
+  # without this, terraform apply would destroy/recreate this already-graded instance.
+  lifecycle {
+    ignore_changes = [ami]
+  }
 }
 
 # H-1: Web server B — second AZ, pairs with web-a behind the load balancer
@@ -29,5 +35,9 @@ resource "aws_instance" "web_b" {
     Name   = "${var.project_name}-web-b-${var.student_name}"
     Owner  = var.student_name
     Backup = "true"
+  }
+
+  lifecycle {
+    ignore_changes = [ami]
   }
 }

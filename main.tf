@@ -4,6 +4,7 @@ terraform {
     tls     = { source = "hashicorp/tls",     version = "~> 4.0" }
     local   = { source = "hashicorp/local",   version = "~> 2.0" }
     archive = { source = "hashicorp/archive", version = "~> 2.0" }
+    random  = { source = "hashicorp/random",  version = "~> 3.0" }
   }
 
   backend "local" {
@@ -75,4 +76,15 @@ module "H" {
   web_a_instance_id = module.E.web_a_instance_id
   web_b_instance_id = module.E.web_b_instance_id
   create_backup     = var.create_backup
+}
+
+# K06/K09 — Network Architecture + Operational Architecture (F-1-A & I-1-A combined):
+# own VPC, public/private subnets across 2 AZs, IGW + NAT instance, bastion,
+# ALB + Auto Scaling Group web tier, RDS Multi-AZ database.
+module "F" {
+  source       = "./F"
+  project_name = var.project_name
+  student_name = var.student_name
+  ami_id       = data.aws_ami.amazon_linux_2023.id
+  key_name     = module.E.key_name
 }

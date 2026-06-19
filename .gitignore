@@ -15,3 +15,4 @@ override.tf.json
 # Generated build artifacts
 *.zip
 E/lambda_function.zip
+db-password.txt

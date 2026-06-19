@@ -13,3 +13,11 @@ output "ebs_volume_id" {
 output "ebs_device_name" {
   value = aws_volume_attachment.data.device_name
 }
+
+output "s3_verification_key" {
+  value = aws_s3_object.verification.key
+}
+
+output "s3_verification_version_id" {
+  value = aws_s3_object.verification.version_id
+}

@@ -44,6 +44,17 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "storage" {
   }
 }
 
+# D-1-B verification object — uploaded as v1, then overwritten with v2 content
+# to demonstrate S3 versioning is actually enabled and working.
+resource "aws_s3_object" "verification" {
+  bucket       = aws_s3_bucket.storage.id
+  key          = "d1b-verification.txt"
+  content_type = "text/plain"
+  content      = file("${path.module}/${var.verification_object_version}")
+
+  tags = { Owner = var.student_name }
+}
+
 # ── Block Storage: EBS ──────────────────────────────────────────────────────
 
 resource "aws_ebs_volume" "data" {

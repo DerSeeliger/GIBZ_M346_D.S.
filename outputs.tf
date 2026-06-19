@@ -31,3 +31,13 @@ output "h1_s3_bucket" {
   description = "S3 bucket with versioning enabled"
   value       = module.H.s3_bucket_name
 }
+
+# ── K06/K09 F-1-A / I-1-A: HA network + operational architecture ──────────────
+output "f1a_alb_url"        { value = module.F.alb_url }
+output "f1a_asg_name"       { value = module.F.asg_name }
+output "f1a_vpc_id"         { value = module.F.vpc_id }
+output "f1a_rds_endpoint"   { value = module.F.rds_endpoint }
+output "f1a_rds_username"   { value = module.F.rds_username }
+output "f1a_nat_public_ip"  { value = module.F.nat_instance_public_ip }
+output "f1a_bastion_ip"     { value = module.F.bastion_public_ip }
+output "f1a_bastion_ssh"    { value = module.F.bastion_ssh_command }
