@@ -1,0 +1,3 @@
+Version 2 — Updated content for M346 D-1-B
+Student: david-seeliger
+This overwrites v1 to demonstrate S3 versioning.
